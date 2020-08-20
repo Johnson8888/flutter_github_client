@@ -18,7 +18,7 @@ class Global {
   // 网络存取对象
   static NetCache netCache = NetCache();
   static List<MaterialColor> get themes => _themes;
-  static bool isRelease => bool.fromEnvironment("dart.vm.product");
+  static bool get isRelease => bool.fromEnvironment("dart.vm.product");
   static Future init() async {
     WidgetsFlutterBinding.ensureInitialized();
     _prefs = await SharedPreferences.getInstance();
@@ -26,10 +26,11 @@ class Global {
     if (_profile != null) {
       try {
         profile = Profile.fromJson(jsonDecode(_profile));
-      } catch(e) {
+      } catch (e) {
         print(e);
       }
     }
+
     /// 如果没有缓存 需要直接读取
     profile.cache = profile.cache ?? CacheConfig()
       ..enable = true
@@ -38,6 +39,6 @@ class Global {
     Git.init();
   }
 
-  static saveProfile() => 
-    _prefs.setString("profile", jsonEncode(profile.toJson()));
+  static saveProfile() =>
+      _prefs.setString("profile", jsonEncode(profile.toJson()));
 }
